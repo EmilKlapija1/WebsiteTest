@@ -7,9 +7,10 @@
 
 <form action='process.php' method="post">
 	
-		Enter your name: <input type="text" name="name">
-		<input type="submit">
-	
+		Username: <input type="email" name="username" value="">
+		Password: <input type="password" name="password" value="">
+		<input type="submit" value="Sign In">
+        
 </form>
 
 
