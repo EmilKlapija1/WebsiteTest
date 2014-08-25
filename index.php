@@ -1,16 +1,26 @@
 <html>
 <head>
-<title> Here is a title </title>
+<title> Daj mi broj?!? </title>
+<link media="all" type="text/css" rel="stylesheet" href="ext/css/style.css">
 </head>
 <body>
 
 <div>
-	<h5>Testna Login Forma</h5>
-	<form action='process.php' method="post">
-		
-			Username: <input type="email" name="username" value="">
-			Password: <input type="password" name="password" value="">
-			<input type="submit" value="Sign In">
+
+	<h1>Title here!</h1>
+	<form action='signin.php' method="post">
+
+		<button type="submit" class="fp_buttons">Sign In</button><br>
+	        
+	</form>
+</div>
+
+<h3>or</h3>
+
+<div>
+	<form action='register.php' method="post">
+
+		<button type="submit" class="fp_buttons">Sign Up</button>
 	        
 	</form>
 </div>
