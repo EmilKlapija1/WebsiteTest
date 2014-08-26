@@ -1,1 +1,5 @@
-<?php include('core/init.inc.php'); ?>
+<?php include('core/init.inc.php'); 
+
+
+
+?>

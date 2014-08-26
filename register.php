@@ -3,6 +3,8 @@
 
 include('core/init.inc.php');
 
+$errors = array();
+
 if (isset($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['age'],
 		  $_POST['gender'], $_POST['number'], $_POST['username'], $_POST['password'],
 	  $_POST['repeat_password'])){
@@ -38,13 +40,15 @@ if (isset($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['age'],
 	if ($_POST['password'] !== $_POST['repeat_password']) {
 		$errors[] = 'Dva pasvorda se ne poklapaju';
 	}
-	if (user_exists($_POST['username'])) {
-		$errors[] = 'Korisnicko ime se vec koristi';
+	$asd = user_exists($_POST['username']);
+	if ($asd) {
+		var_dump($asd);
+		$errors[] = 'Korisnicko ime vec postoji';
 	}
 
-	if (empty($errors) === true){
-		add_user($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['age'],
-			     $_POST['gender'], $_POST['number'], $_POST['username'], $_POST['password']);
+	if (empty($errors)){
+		print_r($_POST);
+		add_user($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['age'], $_POST['gender'], $_POST['number'], $_POST['username'], $_POST['password']);
 
 		$_SESSION['username'] = htmlentities($_POST['username']);
 
@@ -57,55 +61,70 @@ if (isset($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['age'],
 <html>
 <head>
 <title> Registration Form </title>
-<link media="all" type="text/css" rel="stylesheet" href="ext/css/style.css">
+<link media="all" type="text/css" rel="stylesheet" href="ext/css/style.css">\<link media="all" type="text/css" rel="stylesheet" href="ext/css/demo.css">
+<link media="all" type="text/css" rel="stylesheet" href="ext/css/font-awesome.css">
+	<style>
+			@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,700);
+			body {
+				background: #563c55 url(ext/img/blurred.jpg) no-repeat center top;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				background-size: cover;
+			}
+			.container > header h1,
+			.container > header h2 {
+				color: #fff;
+				text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+			}
+	</style>
 </head>
 <body>
+<div>
 <?php
 
-print_r(($_POST));
-
-if (empty($errors) === false){
+if (empty($errors) == false){
 	?>
-	<ul>
+	<ul style="color: white">
 		<?php
-	foreach ($errors as $errors => $value) {
-		echo "<li>{$errors}</li>";
+	foreach ($errors as $error) {
+		echo "<li>{$error}</li>";
 	}
-?>
-<ul>
+		?>
+</ul>
 <?php
 }
 
 ?>
-<div class="registration_form">
+</div>
 
-	
+<div class="registration_form2">
+	<section class = "main">
+		<label style="color: white;">Title here</label>
+		<div class="form-3">	
 	<form method="post" action="">
-
-		<input type="text" placeholder="Ime" value="" name="name"><br>
-		<input type="text" placeholder="Prezime" value="" name="surname"><br>
-		<input type="email" placeholder="Email" value="" name="email"><br>
-	    <select name="age">
- 			<option>10 - 15</option>
-  			<option>15 - 20</option>
-  			<option>20 - 25</option>
-  			<option>25 - 30</option>
-  			<option>35 - 40</option>
-  			<option>40 - 45</option>
-  			<option>45 - 50</option>
-  			<option>50 - 55</option>
-  			<option>60 - 65</option>
-		</select><br>
-	    <input type="radio" name="gender" value="Muski"> Muski
-		<input type="radio" name="gender" value="Zenski"> Zenski <br>
-		<input type="text" placeholder="Broj" value="" name="number"><br> 
-		<input type="text" placeholder="Korisnicko Ime" value="" name="username"><br> 
-		<input type="password" placeholder="Password" value="" name="password"><br>
-		<input type="password" placeholder="Ponovi Password" value="" name="repeat_password"><br>
-		<br>
-		<input type="submit" value="Zavrsi" name="submit_btn" class="fp_buttons">
-
+		<label for="login">Ime</label>
+		<input type="text" placeholder="Ime" value="<?php if(isset($_POST['name'])) echo htmlentities($_POST['name']); ?>" name="name"/><br/>
+		<label for="login">Prezime</label>
+		<input type="text" placeholder="Prezime" value="<?php if(isset($_POST['surname'])) echo htmlentities($_POST['surname']); ?>" name="surname"/><br/>
+		<label for="login">Email</label>
+		<input type="email" placeholder="Email" value="<?php if(isset($_POST['email'])) echo htmlentities($_POST['email']); ?>" name="email"/><br/>
+		<label for="login">Godine</label>
+		<input type="text" placeholder="Godine" value="<?php if(isset($_POST['age'])) echo htmlentities($_POST['age']); ?>" name="age"/><br/>
+	    <label for="login">Spol</label>
+	    <input type="text" placeholder="Spol" value="<?php if(isset($_POST['gender'])) echo htmlentities($_POST['gender']); ?>" name="gender"/><br/>
+		<label for="login">Broj</label>
+		<input type="text" placeholder="Broj" value="<?php if(isset($_POST['number'])) echo htmlentities($_POST['number']); ?>" name="number"/><br/>
+		<label for="login">Korisnicko Ime</label>
+		<input type="text" placeholder="Korisnicko Ime" value="<?php if(isset($_POST['username'])) echo htmlentities($_POST['username']); ?>" name="username"/><br/> 
+		<label for="login">Lozinka</label>
+		<input type="password" placeholder="Lozinka" value="<?php if(isset($_POST['password'])) echo htmlentities($_POST['password']); ?>" name="password"/><br/>
+		<label for="login">Ponovi Lozinku</label>
+		<input type="password" placeholder="Ponovi Lozinku" value="<?php if(isset($_POST['password'])) echo htmlentities($_POST['password']); ?>" name="repeat_password"/><br/>
+		<br/>
+		<input type="submit" value="Zavrsi"/>
 	</form>
+	</div>
+	</section>
 </div>
 
 </body>

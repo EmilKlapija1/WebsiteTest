@@ -9,25 +9,27 @@ function user_exists($username){
 	$username = mysqli_real_escape_string($link, $username);
 
 	// get the total number of rows where a given username exists
-	$total = mysqli_query($link, "SELECT COUNT('ID')
+	$total = mysqli_query($link, "SELECT username
 						   		  FROM users
 						   		  WHERE username = '$username'");
 
-	return (mysqli_fetch_assoc($total) == '1') ? true : false;
+	return mysqli_num_rows($total); /* pogledaj samo broj rezultata jer te zanima samo da li postoji user a ne da vrati rez;*/
 }
 
 // check if a given username and password combination is valid
 function valid_credentials($username, $password){
 
-	// sql injection protection
-	$username = mysql_real_escape_string($username);
+	$link = mysqli_connect('localhost','root','','websitetest');
 
-	$total = mysql_query("SELECT COUNT('ID') 
+	// sql injection protection
+	$username = mysqli_real_escape_string($link, $username);
+
+	$total = mysqli_query($link, "SELECT username
 						  FROM users 
 						  WHERE username = '$username'
 						  AND password = '$password'");
 
-	return (mysql_result($total, 0) == '1') ? true : false;
+	return mysqli_num_rows($total);
 
 }
 
@@ -37,14 +39,18 @@ function add_user($name, $surname, $email, $age, $gender, $number, $username, $p
 	$link = mysqli_connect('localhost','root','','websitetest');
 
 	// sql injection protection
-	$username = mysqli_real_escape_string($link, htmlentities($username));
-	$password = sha1($password);
+	$username = mysqli_real_escape_string($link, htmlentities($username, ENT_QUOTES)); /* po defaultu nece konvertovati oba navodna znaka tako da ENT_QUOTES kodira i " i ' */
+	$password = sha1($password); /* pogledaj Bcrypt hasiranje passworda sa salt-om ili sha512 */
 
-	mysqli_query($link, "INSERT INTO users
-				('NAME','SURNAME','EMAIL','AGE','GENDER','NUMBER','USERNAME','PASSWORD' ) 
-			     VALUES
-			    ('{$name}','{$surname}','{$email}','{$age}','{$gender}',
-			      '{$number}','{$username}','{$password}')");
+	mysqli_query($link, "INSERT INTO users SET
+				NAME = '$name',
+				SURNAME = '$surname',
+				EMAIL = '$email',
+				AGE = '$age',
+				GENDER = '$gender',
+				NUMBER = '$number',
+				USERNAME = '$username',
+				PASSWORD = '$password'");
 
 }
 
