@@ -40,14 +40,14 @@ if (isset($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['age'],
 	if ($_POST['password'] !== $_POST['repeat_password']) {
 		$errors[] = 'Dva pasvorda se ne poklapaju';
 	}
+
 	$asd = user_exists($_POST['username']);
-	if ($asd) {
-		var_dump($asd);
+	if ($asd != 0) {
 		$errors[] = 'Korisnicko ime vec postoji';
 	}
 
 	if (empty($errors)){
-		print_r($_POST);
+	
 		add_user($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['age'], $_POST['gender'], $_POST['number'], $_POST['username'], $_POST['password']);
 
 		$_SESSION['username'] = htmlentities($_POST['username']);

@@ -13,8 +13,8 @@ if(isset($_POST['username'], $_POST['password'])){
 		$errors[] = 'Password ne moze biti prazan';
 	}
 
-	if (valid_credentials($_POST['username'], $_POST['password']) === false){
-	$errors = 'Korisnicno ime i/ili password nisu tacni!';
+	if (valid_credentials($_POST['username'], $_POST['password']) == 0){
+		$errors = 'Korisnicno ime i/ili password nisu tacni!';
 	}
 
 	if (empty($errors)) {
@@ -77,7 +77,7 @@ if (empty($errors) == false){
 				<input type="password" placeholder="Lozinka" name="password" />
 			    <p class="clearfix">
 			        <input type="submit" name="submit" value="Login">
-			    </p>   
+			    </p>
 			</form>
 		</div>
 	</section>
